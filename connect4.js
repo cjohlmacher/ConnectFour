@@ -110,20 +110,32 @@ const showResetButton = () => {
 };
 
 const triggerEndgameCollapse = () => {
-  currPlayer = 1;
-  winner = false;
+  const gameboard = document.querySelector("#game");
+  gameboard.classList.toggle('winning');
   board.length = 0;
   makeBoard();
-  const pieces = document.querySelectorAll(".piece");
-  for (piece of pieces) {
-    piece.remove();
-  };
   const resetButton = document.querySelector("button.reset");
   resetButton.style.display = 'none';
-
+  const pieces = document.querySelectorAll(".piece");
+    for (piece of pieces) {
+      piece.classList.toggle('winning');
+      setTimeout(removePieces,2000);
+    };
+  setTimeout(function() {
+    gameboard.classList.toggle('winning');
+    winner = false;
+  },2000);
 };
-/** handleClick: handle click of column top to play piece */
 
+/* remove all pieces from the gameboard */
+const removePieces = () => {
+  const pieces = document.querySelectorAll(".piece");
+    for (piece of pieces) {
+      piece.remove();
+    };
+};
+
+/* handleClick: handle click of column top to play piece */
 const handleClick = (evt) => {
   // get x from ID of clicked cell
   if (winner) {

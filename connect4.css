@@ -16,6 +16,26 @@ body {
   border-spacing: 0px;
 }
 
+#game.winning {
+  animation-name: rotate;
+  animation-duration: 0.5s;
+  animation-iteration-count: 2;
+  animation-timing-function: linear;
+  /* transform: rotateZ(0deg); */
+}
+
+@keyframes rotate {
+  33% {
+    transform: rotateZ(5deg);
+  }
+  66% {
+    transform: rotateZ(-5deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
+  }
+}
+
 #board td {
   position: relative;
   width: 50px;
@@ -40,6 +60,20 @@ body {
 @keyframes slidein {
   from {
     transform: translateY(var(--fallDistance));
+  }
+}
+
+.piece.winning {
+  animation-name: falloff;
+  animation-duration: 2.5s;
+}
+
+@keyframes falloff {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(90vh);
   }
 }
 
