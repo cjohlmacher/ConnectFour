@@ -1,4 +1,8 @@
 /* game board table */
+#board {
+  margin-left: calc(0.5 * (100vw - 378px));
+  margin-top: calc(0.5 * (100vh - 378px));
+}
 
 #board td {
   position: relative;
@@ -26,6 +30,8 @@
   }
 }
 
+/* TODO: make pieces red/blue,  depending on player 1/2 piece */
+
 .p1 {
   background-color: red;
 }
@@ -34,14 +40,24 @@
   background-color: blue;
 }
 
-/* TODO: make pieces red/blue,  depending on player 1/2 piece */
-
 /* column-top is table row of clickable areas for each column */
 
 #column-top td {
   border: dashed 1px lightgray;
 }
 
-#column-top td:hover {
-  background-color: gold;
+/* preview piece shows up in the column-top table row */
+
+.preview {
+  visibility: hidden;
+  background-color: red;
+  opacity: 50%;
+  width: 80%;
+  height: 80%;
+  margin: 5px;
+  border-radius: 50%;
+}
+
+#column-top td:hover .preview{
+  visibility: visible;
 }

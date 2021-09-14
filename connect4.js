@@ -9,6 +9,7 @@ const WIDTH = 7;
 const HEIGHT = 6;
 
 let currPlayer = 1; // active player: 1 or 2
+let winner = false;
 const board = []; // array of rows, each row is array of cells  (board[y][x])
 
 /** makeBoard: create in-JS board structure:
@@ -35,9 +36,14 @@ const makeHtmlBoard = () => {
   top.setAttribute("id", "column-top");
   top.addEventListener("click", handleClick);
 
+  // Creates the head of the column where the user clicks and a preview piece.
   for (let x = 0; x < WIDTH; x++) {
     const headCell = document.createElement("td");
     headCell.setAttribute("id", x);
+    const previewPiece = document.createElement("div");
+    previewPiece.setAttribute("id",x);
+    previewPiece.classList.add("preview");
+    headCell.append(previewPiece);
     top.append(headCell);
   }
   htmlBoard.append(top);
@@ -81,14 +87,18 @@ const placeInTable = (y, x) => {
 /** endGame: announce game end */
 
 const endGame = (msg) => {
+  winner = true;
   alert(msg);
-
 }
 
 /** handleClick: handle click of column top to play piece */
 
 const handleClick = (evt) => {
   // get x from ID of clicked cell
+  if (winner) {
+    return;
+  };
+  
   const x = +evt.target.id;
 
   // get next spot in column (if none, ignore click)
@@ -107,7 +117,10 @@ const handleClick = (evt) => {
 
   // check for win
   if (checkForWin()) {
-    return endGame(`Player ${currPlayer} won!`);
+    setTimeout( function() {
+      endGame(`Player ${currPlayer} won!`);
+    },100);
+    return;
   };
 
   // check for tie
@@ -122,6 +135,10 @@ const handleClick = (evt) => {
 
   // switch players
   currPlayer = currPlayer === 1 ? 2 : 1;
+  const previewPieces = document.querySelectorAll(".preview");
+  previewPieces.forEach( (previewPiece) => {
+    previewPiece.style.backgroundColor = previewPiece.style.backgroundColor === 'blue' ? 'red' : 'blue';
+  });
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
@@ -163,3 +180,5 @@ const checkForWin = () => {
 
 makeBoard();
 makeHtmlBoard();
+
+const prevPieces = document.querySelectorAll(".preview");
