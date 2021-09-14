@@ -54,12 +54,22 @@ const makeHtmlBoard = () => {
     for (let x = 0; x < WIDTH; x++) {
       const cell = document.createElement("td");
       cell.setAttribute("id", `${y}-${x}`);
+      if (x === 0) {cell.classList.add("leftmost");} 
       row.append(cell);
     }
     htmlBoard.append(row);
   }
 }
 
+const makeResetButton = () => {
+  const resetButton = document.createElement("button");
+  resetButton.classList.add("reset");
+  resetButton.innerText = "Play Again?";
+  resetButton.addEventListener("click", (e) => {
+    triggerEndgameCollapse();
+  });
+  document.body.append(resetButton);
+};
 /** findSpotForCol: given column x, return top empty y (null if filled) */
 
 const findSpotForCol = x => {
@@ -79,7 +89,7 @@ const placeInTable = (y, x) => {
   const piece = document.createElement("div");
   piece.classList.add("piece");
   piece.classList.add(`p${currPlayer}`)
-  piece.style.setProperty('--fallDistance',`-${20+y*54}px`);
+  piece.style.setProperty('--fallDistance',`-${30+y*54}px`);
   piece.style.setProperty('--fallTime',`${0.5+y/2.0}s`);
   cell.append(piece);
 }
@@ -88,9 +98,30 @@ const placeInTable = (y, x) => {
 
 const endGame = (msg) => {
   winner = true;
-  alert(msg);
-}
+  setTimeout( function() {
+    alert(msg);
+  },100);
+  showResetButton();
+};
 
+const showResetButton = () => {
+  const resetButton = document.querySelector("button.reset");
+  resetButton.style.display = 'block';
+};
+
+const triggerEndgameCollapse = () => {
+  currPlayer = 1;
+  winner = false;
+  board.length = 0;
+  makeBoard();
+  const pieces = document.querySelectorAll(".piece");
+  for (piece of pieces) {
+    piece.remove();
+  };
+  const resetButton = document.querySelector("button.reset");
+  resetButton.style.display = 'none';
+
+};
 /** handleClick: handle click of column top to play piece */
 
 const handleClick = (evt) => {
@@ -117,10 +148,7 @@ const handleClick = (evt) => {
 
   // check for win
   if (checkForWin()) {
-    setTimeout( function() {
-      endGame(`Player ${currPlayer} won!`);
-    },100);
-    return;
+    return endGame(`Player ${currPlayer} won!`);
   };
 
   // check for tie
@@ -137,7 +165,7 @@ const handleClick = (evt) => {
   currPlayer = currPlayer === 1 ? 2 : 1;
   const previewPieces = document.querySelectorAll(".preview");
   previewPieces.forEach( (previewPiece) => {
-    previewPiece.style.backgroundColor = previewPiece.style.backgroundColor === 'blue' ? 'red' : 'blue';
+    previewPiece.style.backgroundColor = previewPiece.style.backgroundColor === "rgb(254, 93, 159)" ? 'rgb(0,48,143)' : 'rgb(254,93,159)';
   });
 }
 
@@ -180,5 +208,4 @@ const checkForWin = () => {
 
 makeBoard();
 makeHtmlBoard();
-
-const prevPieces = document.querySelectorAll(".preview");
+makeResetButton();

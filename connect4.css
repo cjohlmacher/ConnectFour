@@ -1,14 +1,27 @@
 /* game board table */
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #89a1ef;
+}
+
+.banner {
+  color:azure;
+  font-size: 2em;
+}
+
 #board {
-  margin-left: calc(0.5 * (100vw - 378px));
-  margin-top: calc(0.5 * (100vh - 378px));
+  border-spacing: 0px;
 }
 
 #board td {
   position: relative;
   width: 50px;
   height: 50px;
-  border: solid 1px #666;
+  background-color: rgb(255,255,255,0);
+  border: solid 3px #fff;
 }
 
 /* pieces are div within game table cells: draw as colored circles */
@@ -30,27 +43,47 @@
   }
 }
 
+#board td > .piece, .piece > #board td {
+  z-index: -1;
+  position: relative;
+}
+
+#board td.rightmost {
+  border-right: solid 3px #fff;
+}
+
+#board td.leftmost {
+  border-left: solid 5px #fff;
+}
+
 /* TODO: make pieces red/blue,  depending on player 1/2 piece */
 
 .p1 {
-  background-color: red;
+  background-color: #00308F;
+  /* background-color: #32CBFF; */
 }
 
 .p2 {
-  background-color: blue;
+  background-color: #fe5d9f;
 }
 
 /* column-top is table row of clickable areas for each column */
 
+#column-top {
+  margin-right: 4px;
+}
+
 #column-top td {
   border: dashed 1px lightgray;
+  padding: 2px 2px 0px 2px;
+  border-bottom: solid 3px #cebebe;
 }
 
 /* preview piece shows up in the column-top table row */
 
 .preview {
   visibility: hidden;
-  background-color: red;
+  background-color: #00308F;
   opacity: 50%;
   width: 80%;
   height: 80%;
@@ -60,4 +93,18 @@
 
 #column-top td:hover .preview{
   visibility: visible;
+}
+
+#game {
+  border-bottom: solid 3px #fff;
+}
+
+/* reset button starts hidden */
+
+button.reset {
+  display: none;
+  background-color: #b7b6fb;
+  border-radius: 5px;
+  margin: 8px;
+  font-size: 1em;
 }
