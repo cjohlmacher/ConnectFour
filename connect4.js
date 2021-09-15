@@ -5,8 +5,8 @@
  * board fills (tie)
  */
 
-const WIDTH = 8;
-const HEIGHT = 7;
+const WIDTH = 7;
+const HEIGHT = 6;
 
 let currPlayer = 1; // active player: 1 or 2
 let winner = false;
@@ -141,11 +141,12 @@ const removePieces = () => {
 
 /* handleClick: handle click of column top to play piece */
 const handleClick = (evt) => {
-  // get x from ID of clicked cell
+  // check if a winner is already declared
   if (winner) {
     return;
   };
   
+  // get x from ID of clicked cell
   const x = +evt.target.id;
 
   // get next spot in column (if none, ignore click)
