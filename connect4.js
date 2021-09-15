@@ -5,8 +5,8 @@
  * board fills (tie)
  */
 
-const WIDTH = 7;
-const HEIGHT = 6;
+const WIDTH = 8;
+const HEIGHT = 7;
 
 let currPlayer = 1; // active player: 1 or 2
 let winner = false;
@@ -36,7 +36,7 @@ const makeHtmlBoard = () => {
   top.setAttribute("id", "column-top");
   top.addEventListener("click", handleClick);
 
-  // Creates the head of the column where the user clicks and a preview piece.
+  // Creates the head of the column where the user clicks and a preview piece appears.
   for (let x = 0; x < WIDTH; x++) {
     const headCell = document.createElement("td");
     headCell.setAttribute("id", x);
@@ -54,13 +54,14 @@ const makeHtmlBoard = () => {
     for (let x = 0; x < WIDTH; x++) {
       const cell = document.createElement("td");
       cell.setAttribute("id", `${y}-${x}`);
-      if (x === 0) {cell.classList.add("leftmost");} 
+      if (x === 0) {cell.classList.add("leftmost");} //for css styling: leftmost cells need added thickness to border
       row.append(cell);
     }
     htmlBoard.append(row);
-  }
-}
+  };
+};
 
+/* add Reset Button to restart the game */
 const makeResetButton = () => {
   const resetButton = document.createElement("button");
   resetButton.classList.add("reset");
@@ -70,6 +71,7 @@ const makeResetButton = () => {
   });
   document.body.append(resetButton);
 };
+
 /** findSpotForCol: given column x, return top empty y (null if filled) */
 
 const findSpotForCol = x => {
@@ -89,8 +91,8 @@ const placeInTable = (y, x) => {
   const piece = document.createElement("div");
   piece.classList.add("piece");
   piece.classList.add(`p${currPlayer}`)
-  piece.style.setProperty('--fallDistance',`-${30+y*54}px`);
-  piece.style.setProperty('--fallTime',`${0.5+y/2.0}s`);
+  piece.style.setProperty('--fallDistance',`-${30+y*54}px`); //calculate animation distance
+  piece.style.setProperty('--fallTime',`${0.5+y/2.0}s`); //calculate animation duration
   cell.append(piece);
 }
 
@@ -104,11 +106,13 @@ const endGame = (msg) => {
   showResetButton();
 };
 
+/* Function to toggle whether Reset Button is displayed or not */
 const showResetButton = () => {
   const resetButton = document.querySelector("button.reset");
   resetButton.style.display = 'block';
 };
 
+/* Function to reset HTML board (including pieces) and clear board array */
 const triggerEndgameCollapse = () => {
   const gameboard = document.querySelector("#game");
   gameboard.classList.toggle('winning');
@@ -119,12 +123,12 @@ const triggerEndgameCollapse = () => {
   const pieces = document.querySelectorAll(".piece");
     for (piece of pieces) {
       piece.classList.toggle('winning');
-      setTimeout(removePieces,2000);
+      setTimeout(removePieces,2000); //removes pieces after animation is finished
     };
   setTimeout(function() {
     gameboard.classList.toggle('winning');
     winner = false;
-  },2000);
+  },2000); //resets animation trigger after animation is finished
 };
 
 /* remove all pieces from the gameboard */
