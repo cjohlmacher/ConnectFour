@@ -1,10 +1,11 @@
 /* game board table */
 body {
   display: flex;
+  height: 100vh;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background-color: #89a1ef;
+  justify-content: flex-start;
+  background: linear-gradient(1deg,#e66465, 20%, #89a1ef)
 }
 
 .banner {
